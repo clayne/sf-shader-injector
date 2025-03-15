@@ -6,25 +6,6 @@
 
 namespace D3DShaderReplacement
 {
-	uint32_t FNV1A32(const void *Input, size_t Length)
-	{
-		constexpr uint32_t FNV1_PRIME_32 = 0x01000193;
-		constexpr uint32_t FNV1_BASE_32 = 2166136261U;
-
-		auto data = reinterpret_cast<const unsigned char *>(Input);
-		auto end = data + Length;
-
-		auto hash = FNV1_BASE_32;
-
-		for (; data != end; data++)
-		{
-			hash ^= *data;
-			hash *= FNV1_PRIME_32;
-		}
-
-		return hash;
-	}
-
 	const std::filesystem::path& GetShaderBinDirectory()
 	{
 		const static auto path = []()
@@ -98,7 +79,7 @@ namespace D3DShaderReplacement
 				// far from efficient but it's usually a one-time operation.
 				std::filesystem::create_directories(shaderBinFullPath.parent_path());
 
-				const auto hash = FNV1A32(Bytecode->pShaderBytecode, Bytecode->BytecodeLength);
+				const auto hash = DebuggingUtil::FNV1A32(Bytecode->pShaderBytecode, Bytecode->BytecodeLength);
 				spdlog::info("Dumping shader with hash {} to {}", hash, shaderBinFullPath.string());
 
 				static std::mutex fileDumpMutex;

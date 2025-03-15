@@ -4,6 +4,25 @@
 
 namespace DebuggingUtil
 {
+	uint32_t FNV1A32(const void *Input, size_t Length)
+	{
+		constexpr uint32_t FNV1_PRIME_32 = 0x01000193;
+		constexpr uint32_t FNV1_BASE_32 = 2166136261U;
+
+		auto data = reinterpret_cast<const unsigned char *>(Input);
+		auto end = data + Length;
+
+		auto hash = FNV1_BASE_32;
+
+		for (; data != end; data++)
+		{
+			hash ^= *data;
+			hash *= FNV1_PRIME_32;
+		}
+
+		return hash;
+	}
+
 	void SetObjectDebugName(ID3D12Object *Object, const char *Name)
 	{
 		if (!Plugin::InsertDebugMarkers)

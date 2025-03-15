@@ -172,7 +172,7 @@ namespace D3DPipelineStateStream
 		CreateCopy(Description);
 	}
 
-	Copy::Copy(Copy&& Other)
+	Copy::Copy(Copy&& Other) noexcept
 	{
 		m_TempBuffers = std::move(Other.m_TempBuffers);
 		m_RefCountedObjects = std::move(Other.m_RefCountedObjects);

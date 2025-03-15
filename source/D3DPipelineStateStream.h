@@ -66,7 +66,7 @@ namespace D3DPipelineStateStream
 	public:
 		Copy(const D3D12_PIPELINE_STATE_STREAM_DESC *Description);
 		Copy(const Copy& Other) = delete;
-		Copy(Copy&& Other);
+		Copy(Copy&& Other) noexcept;
 
 		void TrackAllocation(std::unique_ptr<uint8_t[]>&& Allocation)
 		{
